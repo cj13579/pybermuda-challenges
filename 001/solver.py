@@ -19,13 +19,8 @@ def solve_letter(p: int) -> dict:
     
     for l in alphabet:
         guess = create_word(p, l)
-        result = list(wordle.guess(guess))
-        r = []
-        for item in result: # handles weird blank charcters in split
-            if item == ' ': continue
-            else: r.append(item)
-
-        if r[p] == "🟩": 
+        result = wordle.guess(guess).split(" ")
+        if result[p] == "🟩": 
             return {p: l}
         else:
             continue
