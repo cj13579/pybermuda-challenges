@@ -30,7 +30,7 @@ from functools import cache
 
 def fibonacci(n) -> int:
 
-    # @cache
+    @cache
     def f(i: int) -> int:
         if i <= 1: return i
         else: return f(i-1) + f(i-2)
