@@ -1,17 +1,16 @@
 # NOT TERRIBLE FIBONACCI
 
-While the solution [submitted](fibonacci.py) is probably more Pythonic and flashy, on my machine (a relative new one, but not top of the line) it was no faster than just using simple structures. Both solutions execute on my machine in about `0.00025` seconds.
+Starting with a list of 2 values `[0,1]` we iterate from the next position in the list (2, since Python lists are zero indexed) to `n`. For each position in the Fibonacci sequence we calculate the value from the previous 2 list position values and add the result to the end of the list. Once we've done that, we delete the list to only keep the last 2 positions. This keeps the memory utilization low and makes the list accessing fast. At the end, we return the last item in the list.
 
-For the recursive approach, we solve for the time complexity $O(2^n)$ by using caching to "remember" previously calculated values. To implement this in a simple way I've used [`@functools.cache`](https://docs.python.org/3/library/functools.html#functools.cache). This decorator creates a dictionary lookup for function arguments and their returned values meaning we only calculate each position once.
-
-My original, quick and dirty implementation, did much the same thing and I think I prefer it more. Starting with a list of 2 values `[0,1]` we iterate from the next position (2) in the list to `n`. For each position we calculate the value from the previous 2 list position values and add the result to the end of the list. At the end, we return `n-1` since Python lists are zero indexed.
+In my previous recursive approach, we solve for the time complexity $O(2^n)$ by using caching to "remember" previously calculated values. To implement this in a simple way I've used [`@functools.cache`](https://docs.python.org/3/library/functools.html#functools.cache). This decorator creates a dictionary lookup for function arguments and their returned values meaning we only calculate each position once.
 
 ```python
-def fibonacci(n) -> int:
-    l = [0,1]
-    for f in range(2,n):
-        a = (l[f-1]) + (l[f-2])
-        l.append(a)
+    @cache
+    def f(i: int) -> int:
+        if i <= 1: return i
+        else: return f(i-1) + f(i-2)
     
-    return l[n-1]
+    a = 0
+    for num in range(n):  a = f(num)
+    return a
 ```
