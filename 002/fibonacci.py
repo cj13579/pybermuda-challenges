@@ -26,15 +26,18 @@ previous calculations it had performed?
 """
 
 from time import perf_counter
-
+from functools import cache
 
 def fibonacci(n) -> int:
-    l = [0,1]
-    for f in range(2,n):
-        a = (l[f-1]) + (l[f-2])
-        l.append(a)
+
+    # @cache
+    def f(i: int) -> int:
+        if i <= 1: return i
+        else: return f(i-1) + f(i-2)
     
-    return l[n-1]
+    a = 0
+    for num in range(n):  a = f(num)
+    return a
 
 
 def check_fibonacci() -> None:
